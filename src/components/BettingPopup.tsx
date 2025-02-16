@@ -17,65 +17,72 @@ const Overlay = styled(motion.div)`
 `;
 
 const PopupContent = styled(motion.div)`
-  background: #16213e;
-  padding: 2rem;
-  border-radius: 12px;
+  background: ${props => props.theme.colors.background};
+  padding: ${props => props.theme.spacing.xlarge};
+  border-radius: ${props => props.theme.borderRadius.large};
   width: 90%;
   max-width: 400px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: ${props => props.theme.shadows.main};
 `;
 
 const Title = styled.h2`
-  color: #e94560;
-  margin-bottom: 1.5rem;
+  color: ${props => props.theme.colors.primary};
+  margin-bottom: ${props => props.theme.spacing.large};
   text-align: center;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: ${props => props.theme.spacing.medium};
 `;
 
 const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: ${props => props.theme.spacing.small};
 `;
 
 const Label = styled.label`
-  color: #fff;
+  color: ${props => props.theme.colors.text};
 `;
 
 const Input = styled.input`
-  padding: 0.8rem;
-  border-radius: 6px;
-  border: 2px solid #0f3460;
-  background: #1a1a2e;
-  color: #fff;
+  padding: ${props => props.theme.spacing.medium};
+  border-radius: ${props => props.theme.borderRadius.small};
+  border: 2px solid ${props => props.theme.colors.border};
+  background: ${props => props.theme.colors.secondary};
+  color: ${props => props.theme.colors.text};
   font-size: 1rem;
 
   &:focus {
-    border-color: #e94560;
+    border-color: ${props => props.theme.colors.primary};
     outline: none;
   }
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: ${props => props.theme.spacing.medium};
+  margin-top: ${props => props.theme.spacing.medium};
 `;
 
-const Button = styled(motion.button)`
+const Button = styled(motion.button)<{ variant?: 'secondary' }>`
   flex: 1;
-  background: #e94560;
-  color: white;
+  background: ${props => props.variant === 'secondary' ? props.theme.colors.secondary : props.theme.colors.primary};
+  color: ${props => props.theme.colors.text};
   border: none;
-  padding: 0.8rem;
-  border-radius: 8px;
+  padding: ${props => props.theme.spacing.medium};
+  border-radius: ${props => props.theme.borderRadius.medium};
   font-size: 1rem;
   cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: ${props => props.variant === 'secondary' 
+      ? props.theme.colors.secondaryDark 
+      : props.theme.colors.primaryHover};
+  }
 
   &:disabled {
     opacity: 0.5;
@@ -144,11 +151,11 @@ export const BettingPopup: React.FC<BettingPopupProps> = ({
           </InputGroup>
           <ButtonGroup>
             <Button
+              variant="secondary"
               type="button"
               onClick={onClose}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              style={{ background: '#0f3460' }}
             >
               Cancel
             </Button>

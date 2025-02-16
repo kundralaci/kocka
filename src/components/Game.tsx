@@ -10,22 +10,24 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { BettingPopup } from './BettingPopup';
 import { BettingStrategy, StartingStrategy } from '../strategies/strategies';
 import { generateId } from '../utils/id';
+import { Theme } from '../themes/theme';
+import { setTheme, ThemeType } from '../store/ThemeSlice';
 
 const ResetButton = styled(motion.button)`
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: #e94560;
-  color: white;
+  top: ${props => props.theme.spacing.medium};
+  right: ${props => props.theme.spacing.medium};
+  background: ${props => props.theme.colors.primary};
+  color: ${props => props.theme.colors.text};
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  padding: ${props => props.theme.spacing.small} ${props => props.theme.spacing.medium};
+  border-radius: ${props => props.theme.borderRadius.medium};
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background: #ff6b6b;
+    background: ${props => props.theme.colors.primaryHover};
     transform: translateY(-2px);
   }
 `;
@@ -34,16 +36,16 @@ const GameContainer = styled.div`
   position: relative;
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem;
-  background: #1a1a2e;
-  color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  padding: ${props => props.theme.spacing.xlarge};
+  background: ${props => props.theme.colors.background};
+  color: ${props => props.theme.colors.text};
+  border-radius: ${props => props.theme.borderRadius.xlarge};
+  box-shadow: ${props => props.theme.shadows.main};
 `;
 
 const Title = styled(motion.h1)`
   text-align: center;
-  color: #e94560;
+  color: ${props => props.theme.colors.primary};
   font-size: 2.5rem;
   margin-bottom: 2rem;
 `;
@@ -55,16 +57,16 @@ const PlayersGrid = styled.div`
   margin-bottom: 2rem;
 `;
 
-const PlayerCard = styled(motion.div) <{ isActive: boolean }>`
-  background: ${props => props.isActive ? '#16213e' : '#0f3460'};
-  padding: 1.5rem;
-  border-radius: 12px;
-  border: 2px solid ${props => props.isActive ? '#e94560' : 'transparent'};
+const PlayerCard = styled(motion.div)<{ isActive: boolean }>`
+  background: ${props => props.isActive ? props.theme.colors.secondary : props.theme.colors.secondaryDark};
+  padding: ${props => props.theme.spacing.large};
+  border-radius: ${props => props.theme.borderRadius.large};
+  border: 2px solid ${props => props.isActive ? props.theme.colors.primary : 'transparent'};
   transition: all 0.3s ease;
 
   h2 {
-    color: #e94560;
-    margin-bottom: 1rem;
+    color: ${props => props.theme.colors.primary};
+    margin-bottom: ${props => props.theme.spacing.medium};
   }
 `;
 
@@ -75,9 +77,10 @@ const DiceSquare = styled.span<{ isMatching?: boolean }>`
   width: 30px;
   height: 30px;
   margin: 0 4px;
-  background: ${props => props.isMatching ? '#e94560' : '#16213e'};
-  border-radius: 6px;
+  background: ${props => props.isMatching ? props.theme.colors.primary : props.theme.colors.secondary};
+  border-radius: ${props => props.theme.borderRadius.small};
   font-weight: bold;
+  color: ${props => props.theme.colors.text};
 `;
 
 const DiceContainer = styled(motion.div)`
@@ -94,17 +97,17 @@ const Controls = styled(motion.div)`
 `;
 
 const Button = styled(motion.button)`
-  background: #e94560;
-  color: white;
+  background: ${props => props.theme.colors.primary};
+  color: ${props => props.theme.colors.text};
   border: none;
   padding: 0.8rem 1.5rem;
-  border-radius: 8px;
+  border-radius: ${props => props.theme.borderRadius.medium};
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background: #ff6b6b;
+    background: ${props => props.theme.colors.primaryHover};
     transform: translateY(-2px);
   }
 `;
@@ -112,13 +115,13 @@ const Button = styled(motion.button)`
 const BetHistory = styled(motion.div)`
   margin-top: 1.5rem;
   padding: 1rem;
-  background: #16213e;
-  border-radius: 8px;
+  background: ${props => props.theme.colors.secondary};
+  border-radius: ${props => props.theme.borderRadius.medium};
   max-height: 200px;
   overflow-y: auto;
 
   h3 {
-    color: #e94560;
+    color: ${props => props.theme.colors.primary};
     margin-bottom: 0.5rem;
   }
 
@@ -130,7 +133,8 @@ const BetHistory = styled(motion.div)`
 
 const BetHistoryItem = styled(motion.li)`
   padding: 0.5rem 0;
-  border-bottom: 1px solid #2a2a4a;
+  border-bottom: 1px solid ${props => props.theme.colors.border};
+  color: ${props => props.theme.colors.text};
   
   &:last-child {
     border-bottom: none;
@@ -153,16 +157,21 @@ const ConfigurationOption = styled.div`
 
   label {
     font-size: 1.2rem;
-    color: #e94560;
+    color: ${props => props.theme.colors.primary};
   }
 
   select, input {
     padding: 0.5rem;
-    border-radius: 6px;
-    background: #16213e;
-    color: white;
-    border: 1px solid #e94560;
+    border-radius: ${props => props.theme.borderRadius.small};
+    background: ${props => props.theme.colors.secondary};
+    color: ${props => props.theme.colors.text};
+    border: 1px solid ${props => props.theme.colors.primary};
     width: 200px;
+
+    &:focus {
+      outline: none;
+      border-color: ${props => props.theme.colors.primaryHover};
+    }
   }
 `;
 
@@ -171,7 +180,65 @@ const VersionNumber = styled.div`
   bottom: 0.5rem;
   right: 0.5rem;
   font-size: 0.8rem;
-  color: #666;
+  color: ${props => props.theme.colors.textMuted};
+`;
+
+const ThemeSelect = styled(motion.select)`
+  padding: 0.5rem;
+  border-radius: ${props => props.theme.borderRadius.medium};
+  background: ${props => props.theme.colors.secondary};
+  color: ${props => props.theme.colors.text};
+  border: 1px solid ${props => props.theme.colors.primary};
+  width: 200px;
+  cursor: pointer;
+`;
+
+const PopupOverlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const PopupContent = styled(motion.div)`
+  background: ${props => props.theme.colors.background};
+  padding: ${props => props.theme.spacing.large};
+  border-radius: ${props => props.theme.borderRadius.large};
+  box-shadow: ${props => props.theme.shadows.main};
+  width: 90%;
+  max-width: 400px;
+
+  h2 {
+    color: ${props => props.theme.colors.primary};
+    margin-bottom: ${props => props.theme.spacing.medium};
+  }
+
+  input, select {
+    width: 100%;
+    padding: ${props => props.theme.spacing.small};
+    margin-bottom: ${props => props.theme.spacing.medium};
+    border-radius: ${props => props.theme.borderRadius.small};
+    background: ${props => props.theme.colors.secondary};
+    color: ${props => props.theme.colors.text};
+    border: 1px solid ${props => props.theme.colors.border};
+
+    &:focus {
+      outline: none;
+      border-color: ${props => props.theme.colors.primary};
+    }
+  }
+
+  .buttons {
+    display: flex;
+    gap: ${props => props.theme.spacing.medium};
+    justify-content: flex-end;
+  }
 `;
 
 export const Game: React.FC = () => {
@@ -185,6 +252,7 @@ export const Game: React.FC = () => {
     betHistory,
     lastLoser,
   } = useSelector((state: RootState) => state.game);
+  const currentTheme = useSelector((state: RootState) => state.theme.currentTheme);
 
   const [showBettingPopup, setShowBettingPopup] = useState(false);
   const [numAIPlayers, setNumAIPlayers] = useState(2);
@@ -309,6 +377,18 @@ export const Game: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
+          <ConfigurationOption>
+            <label>Theme</label>
+            <ThemeSelect
+              value={currentTheme}
+              onChange={(e) => dispatch(setTheme(e.target.value as ThemeType))}
+            >
+              <option value="blue">Blue Theme</option>
+              <option value="green">Green Theme</option>
+              <option value="default">Default Theme</option>
+            </ThemeSelect>
+          </ConfigurationOption>
+
           <ConfigurationOption>
             <label>Your Name</label>
             <input
