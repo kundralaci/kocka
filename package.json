@@ -1,7 +1,6 @@
 {
   "name": "kocka",
   "version": "0.1.1",
-  "private": true,
   "homepage": "https://kundralaci.github.io/kocka",
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
