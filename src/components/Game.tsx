@@ -166,6 +166,14 @@ const ConfigurationOption = styled.div`
   }
 `;
 
+const VersionNumber = styled.div`
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  font-size: 0.8rem;
+  color: #666;
+`;
+
 export const Game: React.FC = () => {
   const dispatch = useDispatch();
   const {
@@ -482,6 +490,7 @@ export const Game: React.FC = () => {
           </>
         )}
       
+      <VersionNumber>v{process.env.REACT_APP_VERSION || '0.0.0'}</VersionNumber>
     </GameContainer>
   );
 };
