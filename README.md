@@ -1,46 +1,38 @@
-# Getting Started with Create React App
+# Liar's Dice Game
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A web-based implementation of the classic bluffing dice game, also known as Perudo or Dudo. This project was created as an experimental learning exercise to explore React, Redux, and AI player strategies.
 
-## Available Scripts
+## About the Game
 
-In the project directory, you can run:
+Liar's Dice is a game of deception and probability where players make increasingly higher bids about the dice on the table, while trying to catch others in a lie.
 
-### `npm start`
+### How to Play
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Each player starts with a set number of dice (configurable, default is 3)
+2. All players roll their dice simultaneously and keep their results hidden from others
+3. Players take turns making bids about the total number of dice showing a particular value on the table
+   - For example: "four 3's" means you're betting there are at least four dice showing 3
+   - 1's are wild and count as any number
+4. Each bid must be higher than the previous bid (either in quantity or face value)
+5. Instead of making a higher bid, a player can challenge the previous bid
+6. When challenged:
+   - If the bid was correct (or underestimated), the challenger loses a die
+   - If the bid was too high, the bidder loses a die
+7. The game continues until only one player has dice remaining
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Features
 
-### `npm test`
+- Play against 1-4 AI opponents
+- Customizable starting conditions
+- Multiple theme options
+- Visual dice representation
+- Bet history tracking
+- Responsive design
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Try It Out
 
-### `npm run build`
+You can play the game at: https://kundralaci.github.io/kocka
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Note
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+This is an experimental project created primarily as a learning exercise. The AI strategies are relatively simple and the game continues to evolve as new features and improvements are added.
