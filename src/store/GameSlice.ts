@@ -32,6 +32,14 @@ export const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
+    setInitializing: (state) => {
+      state.gamePhase = GamePhase.INITIALIZING;
+      state.players = [];
+      state.currentBet = null;
+      state.activePlayerIndex = 0;
+      state.roundNumber = 1;
+      state.betHistory = [];
+    },
     setPlayers: (state, action: PayloadAction<PlayerData[]>) => {
       state.players = action.payload;
     },
@@ -118,6 +126,6 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { setPlayers, setCurrentBet, setActivePlayerIndex, setGameOver, rollDice, placeBet, challenge, resolveChallenge, startNewRound, closeRound } = gameSlice.actions;
+export const { setPlayers, setCurrentBet, setActivePlayerIndex, setGameOver, rollDice, placeBet, challenge, resolveChallenge, startNewRound, closeRound, setInitializing } = gameSlice.actions;
 
 export default gameSlice.reducer;
