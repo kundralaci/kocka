@@ -41,6 +41,15 @@ export const gameSlice = createSlice({
     setActivePlayerIndex: (state, action: PayloadAction<number>) => {
       state.activePlayerIndex = action.payload;
     },
+    closeRound: (state) => {
+      if (state.lastLoser !== undefined) {
+        state.players[state.lastLoser].dice = Player.loseDie(state.players[state.lastLoser].dice);
+
+        state.activePlayerIndex = state.lastLoser;
+        state.lastLoser = undefined;
+      }
+      state.gamePhase = GamePhase.ROUND_CLOSED;
+    },
     setGameOver: (state) => {
       state.gamePhase = GamePhase.GAME_OVER;
     },
@@ -83,7 +92,7 @@ export const gameSlice = createSlice({
       }
 
       const totalDiceCount = state.players.reduce((count, player) => {
-        return count + player.dice.filter(d => d === state.currentBet!.faceValue).length;
+        return count + player.dice.filter(d => d === state.currentBet!.faceValue || d === 1).length;
       }, 0);
 
       const challengeSuccessful = totalDiceCount < state.currentBet.quantity;
@@ -94,13 +103,6 @@ export const gameSlice = createSlice({
       state.gamePhase = GamePhase.ROUND_END;
     },
     startNewRound: (state) => {      
-      if (state.lastLoser !== undefined) {
-        state.players[state.lastLoser].dice = Player.loseDie(state.players[state.lastLoser].dice);
-
-        state.activePlayerIndex = state.lastLoser;
-        state.lastLoser = undefined;
-      }
-
       state.currentBet = null;
       state.betHistory = [];
       state.roundNumber += 1;
@@ -116,6 +118,6 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { setPlayers, setCurrentBet, setActivePlayerIndex, setGameOver, rollDice, placeBet, challenge, resolveChallenge, startNewRound } = gameSlice.actions;
+export const { setPlayers, setCurrentBet, setActivePlayerIndex, setGameOver, rollDice, placeBet, challenge, resolveChallenge, startNewRound, closeRound } = gameSlice.actions;
 
 export default gameSlice.reducer;

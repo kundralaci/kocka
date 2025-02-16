@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { setPlayers, placeBet, challenge, resolveChallenge, startNewRound, rollDice, setGameOver } from '../store/GameSlice';
+import { setPlayers, placeBet, challenge, resolveChallenge, startNewRound, rollDice, setGameOver, closeRound } from '../store/GameSlice';
 import { Player, PlayerData } from '../models/Player';
 import { Bet, betToString } from '../models/Bet';
 import { GamePhase } from '../models/GameState';
@@ -136,9 +136,22 @@ export const Game: React.FC = () => {
     const players: PlayerData[] = [
       {
         id: generateId(),
+        name: 'AI 1',
+        isAI: true,
+        dice: new Array(2).fill(null),
+        bettingStrategy: BettingStrategy.Simple,
+        startingStrategy: StartingStrategy.Simple,
+        bettingStrategyParams: {
+          mathVsOwnDice: 0.7,
+          challengeThreshold: 0.5,
+        },
+        startingStrategyParams: {},
+      },
+      {
+        id: generateId(),
         name: 'AI 2',
         isAI: true,
-        dice: new Array(5).fill(null),
+        dice: new Array(2).fill(null),
         bettingStrategy: BettingStrategy.Simple,
         startingStrategy: StartingStrategy.Simple,
         bettingStrategyParams: {
@@ -151,7 +164,7 @@ export const Game: React.FC = () => {
         id: generateId(),
         name: 'Player',
         isAI: false,
-        dice: new Array(5).fill(null),
+        dice: new Array(2).fill(null),
         bettingStrategy: BettingStrategy.Simple,
         startingStrategy: StartingStrategy.Simple,
       },
@@ -173,6 +186,14 @@ export const Game: React.FC = () => {
       setTimeout(() => {
         dispatch(resolveChallenge());
       }, 1000);
+    }
+    if (gamePhase === GamePhase.ROUND_CLOSED) {
+      const playersWithDice = players.filter(p => p.dice.length > 0).length;
+      if (playersWithDice <= 1) {
+        dispatch(setGameOver());
+      } else {
+        dispatch(startNewRound());
+      }
     }
   }, [gamePhase, activePlayerIndex, players]);
 
@@ -242,7 +263,7 @@ export const Game: React.FC = () => {
                     isMatching={
                       !!(gamePhase === GamePhase.ROUND_END) &&
                       !!currentBet &&
-                      die === currentBet.faceValue
+                      (die === currentBet.faceValue || die === 1)
                     }
                   >
                     {player.isAI && gamePhase !== GamePhase.ROUND_END ? "?" : die}
@@ -325,12 +346,7 @@ export const Game: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => {
-                const playersWithDice = players.filter(p => p.dice.length > 0).length;
-                if (playersWithDice <= 1) {
-                  dispatch(setGameOver());
-                } else {
-                  dispatch(startNewRound());
-                }
+              dispatch(closeRound());
             }}
           >
             Continue

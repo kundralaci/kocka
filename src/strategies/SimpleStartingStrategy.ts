@@ -8,7 +8,7 @@ export function decideStartSimple(
     totalDiceInGame: number,
     strategyParams: SimpleStartingStrategyParams = {},
 ): Bet {
-    const count = Math.min(Math.floor(totalDiceInGame / 3) - 1);
-    const mostCommonNumber = getMostCommonNumber(ownDice);
+    const count = Math.max(Math.floor(totalDiceInGame / 3) - 1, 1);
+    const mostCommonNumber = getMostCommonNumber(ownDice.filter(d => d !== 1));
     return { quantity: count, faceValue: mostCommonNumber };
 }

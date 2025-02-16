@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
+import { isGreaterBet } from '../models/Bet';
 
 const Overlay = styled(motion.div)`
   position: fixed;
@@ -93,11 +94,15 @@ export const BettingPopup: React.FC<BettingPopupProps> = ({
   onSubmit,
   onClose,
 }) => {
-  const [quantity, setQuantity] = useState(currentBet ? currentBet.quantity + 1 : 1);
+  const [quantity, setQuantity] = useState(currentBet ? currentBet.quantity : 1);
   const [faceValue, setFaceValue] = useState(currentBet ? currentBet.faceValue : 1);
+  const fallbackBet = {quantity: 1, faceValue: 0};
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isGreaterBet({quantity, faceValue}, currentBet ?? fallbackBet)) {
+      return;
+    }
     onSubmit(quantity, faceValue);
   };
 
@@ -149,6 +154,7 @@ export const BettingPopup: React.FC<BettingPopupProps> = ({
             </Button>
             <Button
               type="submit"
+              disabled={!isGreaterBet({quantity, faceValue}, currentBet ?? fallbackBet)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
