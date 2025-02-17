@@ -50,6 +50,7 @@ export const gameSlice = createSlice({
       state.activePlayerIndex = action.payload;
     },
     closeRound: (state) => {
+      console.log('closeRound', state.lastLoser);
       if (state.lastLoser !== undefined) {
         state.players[state.lastLoser].dice = Player.loseDie(state.players[state.lastLoser].dice);
 
@@ -66,6 +67,7 @@ export const gameSlice = createSlice({
       state.gamePhase = GamePhase.BETTING;
     },
     placeBet: (state, action: PayloadAction<Bet>) => {
+      console.log('placeBet', action.payload);
       const newBet: Bet = action.payload;
       const currentBet = state.currentBet || null;
 
@@ -87,6 +89,7 @@ export const gameSlice = createSlice({
       }
     },
     challenge: (state) => {
+      console.log('challenge');
       state.lastChallenger = state.activePlayerIndex;
       state.betHistory.push({
         type: 'challenge',
@@ -95,6 +98,7 @@ export const gameSlice = createSlice({
       state.gamePhase = GamePhase.CHALLENGE_RESOLUTION;
     },
     resolveChallenge: (state) => {
+      console.log('resolveChallenge');
       if (!state.currentBet || state.lastChallenger === undefined || state.lastBetter === undefined) {
         return;
       }
@@ -110,7 +114,8 @@ export const gameSlice = createSlice({
 
       state.gamePhase = GamePhase.ROUND_END;
     },
-    startNewRound: (state) => {      
+    startNewRound: (state) => {
+      console.log('startNewRound');
       state.currentBet = null;
       state.betHistory = [];
       state.roundNumber += 1;
