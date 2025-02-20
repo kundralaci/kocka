@@ -46,8 +46,8 @@ export function decideBetSimple(
     const w2 = 1 - w1;
 
     // Calculate scores
-    const scoreN = w1 * (1 - deltaPN) + w2 * (Number(k) / n) / (totalDiceInGame / 6);
-    const scoreF = w1 * (1 - deltaPF) + w2 * (1 - (Number(k) / n) / (totalDiceInGame / 6));
+    const scoreN = w1 * (1 - deltaPN) + w2 * (k / n) / (totalDiceInGame / 6);
+    const scoreF = w1 * (1 - deltaPF) + w2 * (1 - (k / n) / (totalDiceInGame / 6));
 
     console.log('currentProb', currentProb, 'scoreN', scoreN, 'scoreF', scoreF);
 

@@ -4,7 +4,7 @@ export function calculateBinomialProbability(n: number, totalDice: number, p: nu
     for (let i = n; i <= totalDice; i++) {
         probability += binomialPMF(totalDice, i, p);
     }
-    return Number(probability) / Number(binomialCoefficient(totalDice, totalDice));
+    return probability / binomialCoefficient(totalDice, totalDice);
 }
 
 function binomialPMF(n: number, k: number, p: number): number {
