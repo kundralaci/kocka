@@ -7,11 +7,11 @@ import {
   Form,
   InputGroup,
   Label,
-  Input,
   ButtonGroup,
   Button,
   Title
 } from './styled/game';
+import { NumberEditor } from './NumberEditor';
 
 interface BettingPopupProps {
   currentBet: Bet | null;
@@ -58,21 +58,19 @@ export const BettingPopup: React.FC<BettingPopupProps> = ({
           <Form onSubmit={handleSubmit}>
             <InputGroup>
               <Label>Quantity</Label>
-              <Input
-                type="number"
+              <NumberEditor
                 min={currentBet ? currentBet.quantity : 1}
                 value={quantity}
-                onChange={e => setQuantity(parseInt(e.target.value))}
+                onChange={setQuantity}
               />
             </InputGroup>
             <InputGroup>
               <Label>Face Value</Label>
-              <Input
-                type="number"
-                min={1}
+              <NumberEditor
+                min={currentBet ? (quantity > currentBet.quantity ? 1 : currentBet.faceValue) : 1}
                 max={6}
                 value={faceValue}
-                onChange={e => setFaceValue(parseInt(e.target.value))}
+                onChange={setFaceValue}
               />
             </InputGroup>
             <ButtonGroup>

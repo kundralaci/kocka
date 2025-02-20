@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
-export const DiceSquare = styled.span<{ isMatching?: boolean }>`
+export const Die = styled.span<{ isMatching?: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;

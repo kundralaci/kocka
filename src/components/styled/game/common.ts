@@ -31,6 +31,12 @@ export const Button = styled(motion.button)`
   }
 `;
 
+export const NumberEditor = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
 export const VersionNumber = styled.div`
   position: absolute;
   bottom: 0.5rem;

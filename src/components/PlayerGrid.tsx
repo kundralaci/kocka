@@ -3,11 +3,11 @@ import { AnimatePresence } from 'framer-motion';
 import { PlayerData } from '../models/Player';
 import { Bet } from '../models/Bet';
 import { GamePhase } from '../models/GameState';
+import { Die } from './Die';
 import {
   PlayersGrid,
   PlayerCard,
-  DiceContainer,
-  DiceSquare
+  DiceContainer
 } from './styled/game';
 
 interface PlayerGridProps {
@@ -46,12 +46,13 @@ export const PlayerGrid: React.FC<PlayerGridProps> = ({
               transition={{ delay: 0.3 }}
             >
               {player.dice.map((die, dieIndex) => (
-                <DiceSquare
+                <Die
                   key={dieIndex}
+                  faceValue={die}
+                  hiddenValue="?"
+                  isHidden={!shouldRevealDice && player.isAI}
                   isMatching={shouldRevealDice && currentBet ? die === currentBet.faceValue || die === 1 : false}
-                >
-                  {shouldRevealDice || !player.isAI ? die : "?"}
-                </DiceSquare>
+                />
               ))}
             </DiceContainer>
           </PlayerCard>

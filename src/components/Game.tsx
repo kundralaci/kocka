@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { setPlayers, placeBet, challenge, rollDice, setInitializing, closeRound, startNewRound, resolveChallenge } from '../store/GameSlice';
+import { setPlayers, placeBet, challenge, rollDice, setInitializing, closeRound, startNewRound, resolveChallenge, setGameOver } from '../store/GameSlice';
 import { Player, PlayerData } from '../models/Player';
 import { Bet } from '../models/Bet';
 import { GamePhase } from '../models/GameState';
@@ -60,9 +60,13 @@ export const Game: React.FC = () => {
 
   useEffect(() => {
     if (gameState.gamePhase === GamePhase.ROUND_CLOSED) {
-      dispatch(startNewRound());
+      if (gameState.players.filter(p => p.dice.length > 0).length <= 1) {
+        dispatch(setGameOver());
+      } else {
+        dispatch(startNewRound());
+      }
     }
-  }, [gameState.gamePhase, dispatch]);
+  }, [gameState.gamePhase, dispatch, gameState.players]);
 
   const handleHumanDecision = (decision: Bet | 'challenge') => {
     Player.makeHumanDecision(decision);
@@ -88,7 +92,7 @@ export const Game: React.FC = () => {
         name: `AI ${i + 1}`,
         isAI: true,
         dice: Player.rollDice(numStartingDice),
-        bettingStrategy: BettingStrategy.Simple,
+        bettingStrategy: BettingStrategy.A1,
         startingStrategy: StartingStrategy.Simple,
       })),
     ].sort(() => Math.random() - 0.5);
@@ -153,6 +157,9 @@ export const Game: React.FC = () => {
             <ActionButtons>
               <Button onClick={() => dispatch(closeRound())}>Next Round</Button>
             </ActionButtons>
+          )}
+          {gameState.gamePhase === GamePhase.GAME_OVER && (
+            <h3 style={{ textAlign: 'center' }}>The winner is {gameState.players.find(p => p.dice.length > 0)?.name}!</h3>
           )}
           {showBettingPopup && (
             <BettingPopup

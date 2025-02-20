@@ -25,7 +25,7 @@ function factorial(n: number): number {
     return result;
 }
 
-export function getMostCommonNumber(numbers: number[]): number {
+export function getLargetsMostCommonNumber(numbers: number[]): number {
     if (numbers.length === 0) {
         throw new Error("Array cannot be empty");
     }
@@ -36,7 +36,7 @@ export function getMostCommonNumber(numbers: number[]): number {
 
     for (const num of numbers) {
         frequency[num] = (frequency[num] || 0) + 1;
-        if (frequency[num] > maxFreq) {
+        if (frequency[num] > maxFreq || (frequency[num] === maxFreq && num > mostCommon)) {
             maxFreq = frequency[num];
             mostCommon = num;
         }

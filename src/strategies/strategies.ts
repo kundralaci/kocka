@@ -1,10 +1,11 @@
-import type { XOR } from 'ts-xor'
-
 import { decideBetSimple, SimpleBettingStrategyParams } from "./SimpleBettingStrategy"
-import { decideStartSimple, SimpleStartingStrategyParams } from "./SimpleStartingStrategy"
+import { decideBetA1, A1BettingStrategyParams } from "./A1BettingStrategy";
+
+import { decideStartSimple, SimpleStartingStrategyParams } from "./SimpleStartingStrategy";
 
 export enum BettingStrategy {
     Simple = 'simple',
+    A1 = 'a1',
 }
 
 export enum StartingStrategy {
@@ -13,11 +14,12 @@ export enum StartingStrategy {
 
 export const bettingStrategies = {
     [BettingStrategy.Simple]: decideBetSimple,
+    [BettingStrategy.A1]: decideBetA1,
 }
 
 export const startingStrategies = {
     [StartingStrategy.Simple]: decideStartSimple,
 }
 
-export type BettingStrategyParams = XOR<SimpleBettingStrategyParams, undefined>;
-export type StartingStrategyParams = XOR<SimpleStartingStrategyParams, undefined>;
+export type BettingStrategyParams = SimpleBettingStrategyParams | A1BettingStrategyParams;
+export type StartingStrategyParams = SimpleStartingStrategyParams;

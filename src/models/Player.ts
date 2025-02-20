@@ -34,7 +34,7 @@ export abstract class Player {
             return startingStrategy(player.dice, totalDiceInGame, player.startingStrategyParams);
         }
         const bettingStrategy = bettingStrategies[player.bettingStrategy];
-        return bettingStrategy(currentBet, player.dice, totalDiceInGame, player.bettingStrategyParams);
+        return bettingStrategy(currentBet, player.dice, totalDiceInGame, player.bettingStrategyParams as any);
     }
 
     static handleHumanTurn(): Promise<Bet | 'challenge'> {

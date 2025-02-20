@@ -1,4 +1,4 @@
-export * from './dice';
+export * from './die';
 export * from './player';
 export * from './configuration';
 export * from './history';
