@@ -76,15 +76,15 @@ export const BettingPopup: React.FC<BettingPopupProps> = ({
               />
             </InputGroup>
             <ButtonGroup>
-              <Button type="submit" whileHover={{ scale: 1.05 }}>
-                Place Bet
-              </Button>
               <Button
                 type="button"
                 onClick={handleCancel}
                 whileHover={{ scale: 1.05 }}
               >
                 Cancel
+              </Button>
+              <Button type="submit" whileHover={{ scale: 1.05 }}>
+                Place Bet
               </Button>
             </ButtonGroup>
           </Form>

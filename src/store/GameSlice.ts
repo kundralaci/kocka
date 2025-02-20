@@ -41,7 +41,13 @@ export const gameSlice = createSlice({
       state.betHistory = [];
     },
     setPlayers: (state, action: PayloadAction<PlayerData[]>) => {
+      console.log('setPlayers');
+      if (state.gamePhase !== GamePhase.INITIALIZING) {
+        console.log('Called in invalid phase');
+        return;
+      }
       state.players = action.payload;
+      state.gamePhase = GamePhase.ROLLING;
     },
     setCurrentBet: (state, action: PayloadAction<Bet>) => {
       state.currentBet = action.payload;
@@ -51,6 +57,11 @@ export const gameSlice = createSlice({
     },
     closeRound: (state) => {
       console.log('closeRound', state.lastLoser);
+      if (state.gamePhase !== GamePhase.ROUND_END) {
+        console.log('Called in invalid phase');
+        return;
+      }
+
       if (state.lastLoser !== undefined) {
         state.players[state.lastLoser].dice = Player.loseDie(state.players[state.lastLoser].dice);
 
@@ -63,11 +74,21 @@ export const gameSlice = createSlice({
       state.gamePhase = GamePhase.GAME_OVER;
     },
     rollDice: (state) => {
+      console.log('rollDice');
+      if (state.gamePhase !== GamePhase.ROLLING) {
+        console.log('Called in invalid phase');
+        return;
+      }
       state.players.forEach(player => player.dice = Player.rollDice(player.dice.length));
       state.gamePhase = GamePhase.BETTING;
     },
     placeBet: (state, action: PayloadAction<Bet>) => {
       console.log('placeBet', action.payload);
+      if (state.gamePhase !== GamePhase.BETTING) {
+        console.log('Called in invalid phase');
+        return;
+      }
+
       const newBet: Bet = action.payload;
       const currentBet = state.currentBet || null;
 
@@ -90,6 +111,11 @@ export const gameSlice = createSlice({
     },
     challenge: (state) => {
       console.log('challenge');
+      if (state.gamePhase !== GamePhase.BETTING) {
+        console.log('Called in invalid phase');
+        return;
+      }
+
       state.lastChallenger = state.activePlayerIndex;
       state.betHistory.push({
         type: 'challenge',
@@ -99,6 +125,11 @@ export const gameSlice = createSlice({
     },
     resolveChallenge: (state) => {
       console.log('resolveChallenge');
+      if (state.gamePhase !== GamePhase.CHALLENGE_RESOLUTION) {
+        console.log('Called in invalid phase');
+        return;
+      }
+
       if (!state.currentBet || state.lastChallenger === undefined || state.lastBetter === undefined) {
         return;
       }
@@ -116,6 +147,11 @@ export const gameSlice = createSlice({
     },
     startNewRound: (state) => {
       console.log('startNewRound');
+      if (state.gamePhase !== GamePhase.ROUND_CLOSED) {
+        console.log('Called in invalid phase');
+        return;
+      }
+
       state.currentBet = null;
       state.betHistory = [];
       state.roundNumber += 1;

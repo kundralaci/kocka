@@ -23,7 +23,8 @@ export const PlayerGrid: React.FC<PlayerGridProps> = ({
   gamePhase,
   currentBet
 }) => {
-  const shouldRevealDice = gamePhase === GamePhase.CHALLENGE_RESOLUTION || 
+  const shouldRevealDice = gamePhase === GamePhase.ROUND_END ||
+                          gamePhase === GamePhase.ROUND_CLOSED ||
                           gamePhase === GamePhase.GAME_OVER;
 
   return (

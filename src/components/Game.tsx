@@ -26,6 +26,7 @@ export const Game: React.FC = () => {
     if (gameState.gamePhase !== GamePhase.BETTING) return;
     const activePlayer = gameState.players[gameState.activePlayerIndex];
     if (!activePlayer?.isAI) return;
+
     // Add a small delay to make AI moves feel more natural
     await new Promise(resolve => setTimeout(resolve, Math.random() * 1500 + 1000));
 
