@@ -7,7 +7,8 @@ import { Die } from './Die';
 import {
   PlayersGrid,
   PlayerCard,
-  DiceContainer
+  DiceContainer,
+  Tag
 } from './styled/game';
 
 interface PlayerGridProps {
@@ -39,7 +40,14 @@ export const PlayerGrid: React.FC<PlayerGridProps> = ({
             exit={{ opacity: 0, y: -20 }}
             transition={{ delay: index * 0.1 }}
           >
-            <h2>{player.name}</h2>
+            <h2 style={{ display: 'flex', alignItems: 'center' }}>
+              {player.name}
+              {player.isAI && player.aiType && (
+                <Tag style={{ marginLeft: '0.5em' }}>
+                  {player.aiType}
+                </Tag>
+              )}
+            </h2>
             <DiceContainer
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

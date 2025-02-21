@@ -1,10 +1,12 @@
 import { Bet } from './Bet';
 import { bettingStrategies, BettingStrategy, BettingStrategyParams, startingStrategies, StartingStrategy, StartingStrategyParams } from '../strategies/strategies';
 
+
 export interface PlayerData {
     id: string;
     name: string;
     isAI: boolean;
+    aiType: string;
     dice: number[];
     bettingStrategy?: BettingStrategy;
     startingStrategy?: StartingStrategy;

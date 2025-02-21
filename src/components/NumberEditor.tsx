@@ -20,23 +20,27 @@ export const NumberEditor: React.FC<NumberEditorProps> = ({
 }) => {
   return (
     <StyledNumberEditor>
-        <Button
-            type="button"
-            onClick={() => onChange(value - 1)}
-            disabled={value <= min}
-            >
-            -
-        </Button>
-        <Die
-            faceValue={value}
-        />
-        <Button
-            type="button"
-            onClick={() => onChange(value + 1)}
-            disabled={value >= max} // Assuming 10 is the max limit for quantity
-            >
-            +
-        </Button>
+      <Button
+        type="button"
+        onClick={() => onChange(value - 1)}
+        disabled={value <= min}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        >
+        -
+      </Button>
+      <Die
+          faceValue={value}
+      />
+      <Button
+        type="button"
+        onClick={() => onChange(value + 1)}
+        disabled={value >= max} // Assuming 10 is the max limit for quantity
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        >
+        +
+      </Button>
     </StyledNumberEditor>
   );
 };

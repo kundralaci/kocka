@@ -4,8 +4,8 @@ import { decideBetA1, A1BettingStrategyParams } from "./A1BettingStrategy";
 import { decideStartSimple, SimpleStartingStrategyParams } from "./SimpleStartingStrategy";
 
 export enum BettingStrategy {
-    Simple = 'simple',
-    A1 = 'a1',
+    Simple = 'Simple',
+    A1 = 'A1',
 }
 
 export enum StartingStrategy {

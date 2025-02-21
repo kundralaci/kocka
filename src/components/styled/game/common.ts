@@ -31,6 +31,19 @@ export const Button = styled(motion.button)`
   }
 `;
 
+export const Tag = styled(motion.div)`
+  display: inline-block;
+  background: ${props => props.theme.colors.secondary};
+  border-width: 0;
+  border-radius: ${props => props.theme.borderRadius.small};
+  color: ${props => props.theme.colors.text};
+  font-size: 0.6em;
+  font-weight: normal;
+  padding: 0.2em 0.5em;
+  margin-bottom: 0.1em;
+  transition: all 0.2s ease;
+`;
+
 export const NumberEditor = styled.div`
   display: flex;
   align-items: center;

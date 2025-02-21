@@ -5,8 +5,10 @@ import {
   ConfigurationContainer,
   ConfigurationOption,
   ThemeSelect,
-  Button
+  Button,
+  Title
 } from './styled/game';
+import { NumberEditor } from './NumberEditor';
 
 interface GameConfigurationProps {
   currentTheme: ThemeType;
@@ -36,17 +38,12 @@ export const GameConfiguration: React.FC<GameConfigurationProps> = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      <ConfigurationOption>
-        <label>Theme</label>
-        <ThemeSelect
-          value={currentTheme}
-          onChange={e => dispatch(setTheme(e.target.value as ThemeType))}
+      <Title
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
         >
-          <option value="blue">Blue</option>
-          <option value="green">Green</option>
-          <option value="default">Default</option>
-        </ThemeSelect>
-      </ConfigurationOption>
+          Liar's Dice
+      </Title>
 
       <ConfigurationOption>
         <label>Your Name</label>
@@ -59,24 +56,34 @@ export const GameConfiguration: React.FC<GameConfigurationProps> = ({
 
       <ConfigurationOption>
         <label>Number of AI Players</label>
-        <input
-          type="number"
+        <NumberEditor
           min={1}
           max={4}
           value={numAIPlayers}
-          onChange={e => onAIPlayersChange(parseInt(e.target.value))}
+          onChange={onAIPlayersChange}
         />
       </ConfigurationOption>
 
       <ConfigurationOption>
         <label>Starting Dice per Player</label>
-        <input
-          type="number"
+        <NumberEditor
           min={1}
           max={5}
           value={numStartingDice}
-          onChange={e => onStartingDiceChange(parseInt(e.target.value))}
+          onChange={onStartingDiceChange}
         />
+      </ConfigurationOption>
+
+      <ConfigurationOption>
+        <label>Theme</label>
+        <ThemeSelect
+          value={currentTheme}
+          onChange={e => dispatch(setTheme(e.target.value as ThemeType))}
+        >
+          <option value="blue">Blue</option>
+          <option value="green">Green</option>
+          <option value="default">Default</option>
+        </ThemeSelect>
       </ConfigurationOption>
 
       <Button

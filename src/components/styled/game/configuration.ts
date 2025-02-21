@@ -27,6 +27,7 @@ export const ConfigurationOption = styled.div`
     color: ${props => props.theme.colors.text};
     border: 1px solid ${props => props.theme.colors.primary};
     width: 200px;
+    text-align: center;
 
     &:focus {
       outline: none;

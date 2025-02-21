@@ -12,6 +12,7 @@ import { GameConfiguration } from './GameConfiguration';
 import { PlayerGrid } from './PlayerGrid';
 import { BetHistory } from './BetHistory';
 import { ResetButton, GameContainer, Title, VersionNumber, ActionButtons, Button } from './styled/game';
+import { Die } from './Die';
 
 export const Game: React.FC = () => {
   const dispatch = useDispatch();
@@ -85,12 +86,14 @@ export const Game: React.FC = () => {
         id: generateId(),
         name: playerName,
         isAI: false,
+        aiType: 'human',
         dice: Player.rollDice(numStartingDice),
       },
       ...Array(numAIPlayers).fill(null).map((_, i) => ({
         id: generateId(),
         name: `AI ${i + 1}`,
         isAI: true,
+        aiType: 'A1',
         dice: Player.rollDice(numStartingDice),
         bettingStrategy: BettingStrategy.A1,
         startingStrategy: StartingStrategy.Simple,
@@ -144,8 +147,8 @@ export const Game: React.FC = () => {
             <ActionButtons>
               {gameState.currentBet && (
                 <>
-                  <div style={{ display: 'flex', alignItems: 'center', margin: '0 10px' }}>
-                    Current bet: {gameState.currentBet.quantity} X {gameState.currentBet.faceValue}
+                  <div style={{ display: 'flex', alignItems: 'center', margin: '0 10px', fontWeight: 'bold' }}>
+                    Current bet: <Die faceValue={gameState.currentBet.quantity}/> X <Die faceValue={gameState.currentBet.faceValue}/>
                   </div>
                   <Button onClick={() => handleHumanDecision('challenge')}>Challenge</Button>
                 </>
@@ -159,7 +162,7 @@ export const Game: React.FC = () => {
             </ActionButtons>
           )}
           {gameState.gamePhase === GamePhase.GAME_OVER && (
-            <h3 style={{ textAlign: 'center' }}>The winner is {gameState.players.find(p => p.dice.length > 0)?.name}!</h3>
+            <h3 style={{ textAlign: 'center' }}>The winner is: {gameState.players.find(p => p.dice.length > 0)?.name}!</h3>
           )}
           {showBettingPopup && (
             <BettingPopup
