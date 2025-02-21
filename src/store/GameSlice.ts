@@ -55,24 +55,6 @@ export const gameSlice = createSlice({
     setActivePlayerIndex: (state, action: PayloadAction<number>) => {
       state.activePlayerIndex = action.payload;
     },
-    closeRound: (state) => {
-      console.log('closeRound', state.lastLoser);
-      if (state.gamePhase !== GamePhase.ROUND_END) {
-        console.log('Called in invalid phase');
-        return;
-      }
-
-      if (state.lastLoser !== undefined) {
-        state.players[state.lastLoser].dice = Player.loseDie(state.players[state.lastLoser].dice);
-
-        state.activePlayerIndex = state.lastLoser;
-        state.lastLoser = undefined;
-      }
-      state.gamePhase = GamePhase.ROUND_CLOSED;
-    },
-    setGameOver: (state) => {
-      state.gamePhase = GamePhase.GAME_OVER;
-    },
     rollDice: (state) => {
       console.log('rollDice');
       if (state.gamePhase !== GamePhase.ROLLING) {
@@ -145,6 +127,21 @@ export const gameSlice = createSlice({
 
       state.gamePhase = GamePhase.ROUND_END;
     },
+    closeRound: (state) => {
+      console.log('closeRound', state.lastLoser);
+      if (state.gamePhase !== GamePhase.ROUND_END) {
+        console.log('Called in invalid phase');
+        return;
+      }
+
+      if (state.lastLoser !== undefined) {
+        state.players[state.lastLoser].dice = Player.loseDie(state.players[state.lastLoser].dice);
+
+        state.activePlayerIndex = state.lastLoser;
+        state.lastLoser = undefined;
+      }
+      state.gamePhase = GamePhase.ROUND_CLOSED;
+    },
     startNewRound: (state) => {
       console.log('startNewRound');
       if (state.gamePhase !== GamePhase.ROUND_CLOSED) {
@@ -163,6 +160,13 @@ export const gameSlice = createSlice({
         nextPlayerIndex = (nextPlayerIndex + 1) % state.players.length;
       }
       state.activePlayerIndex = nextPlayerIndex;
+    },
+    setGameOver: (state) => {
+      console.log('setGameOver');
+      if (state.gamePhase !== GamePhase.ROUND_CLOSED) {
+        console.log('Called in invalid phase');
+        return;
+      }state.gamePhase = GamePhase.GAME_OVER;
     },
   },
 });
