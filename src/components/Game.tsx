@@ -14,7 +14,7 @@ import { BetHistory } from './BetHistory';
 import { ResetButton, GameContainer, Title, VersionNumber, ActionButtons, Button, HeaderContainer } from './styled/game';
 import { Die } from './Die';
 import { ConfirmationPopup } from './ConfirmationPopup';
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
 
 export const Game: React.FC = () => {
   const dispatch = useDispatch();
@@ -124,10 +124,9 @@ export const Game: React.FC = () => {
       const gameContainer = document.querySelector('.game-container');
       if (!gameContainer) return;
 
-      const canvas = await html2canvas(gameContainer as HTMLElement);
-      const blob = await new Promise<Blob>(resolve => {
-        canvas.toBlob(blob => resolve(blob as Blob), 'image/png');
-      });
+      const dataUrl = await toPng(gameContainer as HTMLElement);
+      const response = await fetch(dataUrl);
+      const blob = await response.blob();
 
       if (navigator.share) {
         await navigator.share({
@@ -137,12 +136,10 @@ export const Game: React.FC = () => {
         });
       } else {
         // Fallback for browsers that don't support Web Share API
-        const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = url;
+        a.href = dataUrl;
         a.download = 'kocka-game.png';
         a.click();
-        URL.revokeObjectURL(url);
       }
     } catch (error) {
       console.error('Error sharing:', error);

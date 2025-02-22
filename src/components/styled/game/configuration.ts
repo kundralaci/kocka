@@ -8,7 +8,7 @@ export const ConfigurationContainer = styled(motion.div)`
   align-items: center;
   margin: 2rem 0;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   margin: 0 auto;
 
   @media (max-width: 768px) {
