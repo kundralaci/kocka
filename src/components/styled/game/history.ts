@@ -21,7 +21,9 @@ export const BetHistory = styled(motion.div)`
 `;
 
 export const BetHistoryItem = styled(motion.li)`
-  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  padding: 0.3rem 0;
   border-bottom: 1px solid ${props => props.theme.colors.border};
   color: ${props => props.theme.colors.text};
   

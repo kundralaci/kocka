@@ -11,7 +11,3 @@ export function isGreaterBet(bet: Bet | null, otherBet: Bet | null): boolean {
     if (bet.quantity === otherBet.quantity && bet.faceValue > otherBet.faceValue) return true;
     return false;
 }
-
-export function betToString(bet: Bet): string {
-    return `${bet.quantity} of ${bet.faceValue}'s`;
-}

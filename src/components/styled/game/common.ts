@@ -102,9 +102,9 @@ export const GameContainer = styled.div`
 `;
 
 export const ResetButton = styled(motion.button)`
-  background: transparent;
-  color: ${props => props.theme.colors.textMuted};
-  border: 1px solid ${props => props.theme.colors.border};
+  background: ${props => props.theme.colors.primary};
+  color: ${props => props.theme.colors.text};
+  border: 1px solid ${props => props.theme.colors.primary};
   padding: 0.5rem 1rem;
   border-radius: ${props => props.theme.borderRadius.medium};
   cursor: pointer;
@@ -117,8 +117,7 @@ export const ResetButton = styled(motion.button)`
   }
 
   &:hover {
-    background: ${props => props.theme.colors.secondary};
-    color: ${props => props.theme.colors.text};
+    background: ${props => props.theme.colors.primaryHover};
   }
 `;
 

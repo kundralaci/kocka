@@ -1,10 +1,11 @@
 import React from 'react';
 import { PlayerData } from '../models/Player';
-import { Bet, betToString } from '../models/Bet';
+import { Bet } from '../models/Bet';
 import {
   BetHistory as StyledBetHistory,
   BetHistoryItem
 } from './styled/game';
+import { Die } from './Die';
 
 interface BetHistoryProps {
   betHistory: Array<{
@@ -38,10 +39,20 @@ export const BetHistory: React.FC<BetHistoryProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
-              {entry.player.name} 
+              <span style={{ fontWeight: 'bold' }}>{entry.player.name}</span> 
               {entry.type === 'bet' 
-                ? ` bet ${betToString(entry.bet!)}` 
-                : ' challenged'}
+                ? (
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <span style={{ marginLeft: '1ch' }}>bet:</span>
+                    <Die faceValue={entry.bet!.quantity}/>
+                    <span style={{ marginRight: '0.5rem', fontWeight: 'bold' }}>X</span>
+                    <Die is3D={true} faceValue={entry.bet!.faceValue}/>
+                  </div>
+                ) 
+                : (
+                  <span style={{ marginLeft: '1ch' }}>challenged</span>
+                )
+              }
               {lastLoser !== null && index === 0 && (
                 <strong>
                   {` - ${players[lastLoser].name} lost a die!`}

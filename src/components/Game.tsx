@@ -166,8 +166,10 @@ export const Game: React.FC = () => {
             <ActionButtons>
               {gameState.currentBet && (
                 <>
-                  <div style={{ display: 'flex', alignItems: 'center', margin: '0 10px', fontWeight: 'bold' }}>
-                    Bet: <Die faceValue={gameState.currentBet.quantity}/> X <Die faceValue={gameState.currentBet.faceValue}/>
+                  <div style={{ display: 'flex', alignItems: 'center', margin: '0 0.5rem' }}>
+                    <Die faceValue={gameState.currentBet.quantity}/>
+                    <span style={{ margin: '0.5rem', fontWeight: 'bold' }}>X</span>
+                    <Die is3D={true} faceValue={gameState.currentBet.faceValue}/>
                   </div>
                   <Button onClick={() => handleHumanDecision('challenge')}>Challenge</Button>
                 </>

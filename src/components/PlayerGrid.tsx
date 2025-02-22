@@ -56,6 +56,7 @@ export const PlayerGrid: React.FC<PlayerGridProps> = ({
               {player.dice.map((die, dieIndex) => (
                 <Die
                   key={dieIndex}
+                  is3D={true}
                   faceValue={die}
                   hiddenValue="?"
                   isHidden={!shouldRevealDice && player.isAI}

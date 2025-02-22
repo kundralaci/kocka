@@ -9,6 +9,7 @@ interface NumberEditorProps {
   min?: number;
   max?: number;
   value: number;
+  is3D?: boolean;
   onChange: (value: number) => void;
 }
 
@@ -16,6 +17,7 @@ export const NumberEditor: React.FC<NumberEditorProps> = ({
   min = 1,
   max = 6,
   value,
+  is3D = false,
   onChange
 }) => {
   return (
@@ -29,7 +31,7 @@ export const NumberEditor: React.FC<NumberEditorProps> = ({
         >
         -
       </Button>
-      <Die
+      <Die is3D={is3D}
           faceValue={value}
       />
       <Button

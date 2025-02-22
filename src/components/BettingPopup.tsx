@@ -52,6 +52,7 @@ export const BettingPopup: React.FC<BettingPopupProps> = ({
           <NumberEditor
             min={currentBet ? (quantity > currentBet.quantity ? 1 : currentBet.faceValue) : 1}
             max={6}
+            is3D={true}
             value={faceValue}
             onChange={setFaceValue}
           />
