@@ -14,9 +14,9 @@ interface GameState {
   activePlayerIndex: number;
   gamePhase: GamePhase;
   roundNumber: number;
-  lastChallenger?: number;
-  lastBetter?: number;
-  lastLoser?: number;
+  lastChallenger: number | null;
+  lastBetter: number | null;
+  lastLoser: number | null;
 }
 
 const initialState: GameState = {
@@ -26,6 +26,9 @@ const initialState: GameState = {
   gamePhase: GamePhase.INITIALIZING,
   roundNumber: 1,
   betHistory: [],
+  lastChallenger: null,
+  lastBetter: null,
+  lastLoser: null,
 };
 
 export const gameSlice = createSlice({
@@ -39,6 +42,9 @@ export const gameSlice = createSlice({
       state.activePlayerIndex = 0;
       state.roundNumber = 1;
       state.betHistory = [];
+      state.lastLoser = null;
+      state.lastChallenger = null;
+      state.lastBetter = null;
     },
     setPlayers: (state, action: PayloadAction<PlayerData[]>) => {
       console.log('setPlayers');
@@ -112,7 +118,7 @@ export const gameSlice = createSlice({
         return;
       }
 
-      if (!state.currentBet || state.lastChallenger === undefined || state.lastBetter === undefined) {
+      if (!state.currentBet || state.lastChallenger === null || state.lastBetter === null) {
         return;
       }
 
@@ -134,11 +140,11 @@ export const gameSlice = createSlice({
         return;
       }
 
-      if (state.lastLoser !== undefined) {
+      if (state.lastLoser !== null) {
         state.players[state.lastLoser].dice = Player.loseDie(state.players[state.lastLoser].dice);
 
         state.activePlayerIndex = state.lastLoser;
-        state.lastLoser = undefined;
+        state.lastLoser = null;
       }
       state.gamePhase = GamePhase.ROUND_CLOSED;
     },

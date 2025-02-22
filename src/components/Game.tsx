@@ -22,6 +22,7 @@ export const Game: React.FC = () => {
   const [playerName, setPlayerName] = useState('Player');
   const [numAIPlayers, setNumAIPlayers] = useState(2);
   const [numStartingDice, setNumStartingDice] = useState(3);
+  const [braveness, setBraveness] = useState(50);
 
   const handleAITurn = useCallback(async () => {
     if (gameState.gamePhase !== GamePhase.BETTING) return;
@@ -96,7 +97,13 @@ export const Game: React.FC = () => {
         aiType: 'A1',
         dice: Player.rollDice(numStartingDice),
         bettingStrategy: BettingStrategy.A1,
+        bettingStrategyParams: {
+          challengeThreshold: 1 - (braveness / 100),
+        },
         startingStrategy: StartingStrategy.Simple,
+        startingStrategyParams: {
+          braveness: braveness / 100,
+        },
       })),
     ].sort(() => Math.random() - 0.5);
 
@@ -116,9 +123,11 @@ export const Game: React.FC = () => {
           playerName={playerName}
           numAIPlayers={numAIPlayers}
           numStartingDice={numStartingDice}
+          braveness={braveness}
           onPlayerNameChange={setPlayerName}
           onAIPlayersChange={setNumAIPlayers}
           onStartingDiceChange={setNumStartingDice}
+          onBravenessChange={setBraveness}
           onStartGame={startGame}
         />
       ) : (

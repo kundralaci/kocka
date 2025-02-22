@@ -12,7 +12,7 @@ export function decideBetA1(
     currentBet: Bet,
     ownDice: number[],
     totalDiceInGame: number,
-    strategyParams: A1BettingStrategyParams = { challengeThreshold: 0.5 }
+    strategyParams: A1BettingStrategyParams = { challengeThreshold: 0.3 }
 ): Bet | 'challenge' {
     const { quantity: n, faceValue: f } = currentBet;
     const p = 1 / 3;  // Probability of success (specific face or joker)
@@ -23,7 +23,7 @@ export function decideBetA1(
     const remainingNeeded = n - ownRelevantDice;
     const currentProb = calculateBinomialProbability(remainingNeeded, remainingDice, p);
 
-  // Case 1: Increase face value (only if f < 6)
+    // Case 1: Increase face value (only if f < 6)
     let probNewFace = 0;
     let newFaceValue = f;
     if (f < 6) {

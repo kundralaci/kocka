@@ -6,7 +6,8 @@ import {
   ConfigurationOption,
   ThemeSelect,
   Button,
-  Title
+  Title,
+  Tag
 } from './styled/game';
 import { NumberEditor } from './NumberEditor';
 
@@ -15,10 +16,12 @@ interface GameConfigurationProps {
   playerName: string;
   numAIPlayers: number;
   numStartingDice: number;
+  braveness: number;
   onPlayerNameChange: (name: string) => void;
   onAIPlayersChange: (num: number) => void;
   onStartingDiceChange: (num: number) => void;
   onStartGame: () => void;
+  onBravenessChange: (braveness: number) => void;
 }
 
 export const GameConfiguration: React.FC<GameConfigurationProps> = ({
@@ -26,10 +29,12 @@ export const GameConfiguration: React.FC<GameConfigurationProps> = ({
   playerName,
   numAIPlayers,
   numStartingDice,
+  braveness,
   onPlayerNameChange,
   onAIPlayersChange,
   onStartingDiceChange,
-  onStartGame
+  onStartGame,
+  onBravenessChange
 }) => {
   const dispatch = useDispatch();
 
@@ -61,6 +66,17 @@ export const GameConfiguration: React.FC<GameConfigurationProps> = ({
           max={4}
           value={numAIPlayers}
           onChange={onAIPlayersChange}
+        />
+      </ConfigurationOption>
+
+      <ConfigurationOption>
+        <label>AI Braveness <Tag>{braveness}%</Tag></label>
+        <input
+          type="range"
+          min={0}
+          max={100}
+          value={braveness}
+          onChange={e => onBravenessChange(Math.round(Number(e.target.value)))}
         />
       </ConfigurationOption>
 

@@ -12,7 +12,7 @@ interface BetHistoryProps {
     player: PlayerData;
     bet?: Bet;
   }>;
-  lastLoser?: number;
+  lastLoser: number | null;
   players: PlayerData[];
 }
 
@@ -42,7 +42,7 @@ export const BetHistory: React.FC<BetHistoryProps> = ({
               {entry.type === 'bet' 
                 ? ` bet ${betToString(entry.bet!)}` 
                 : ' challenged'}
-              {lastLoser !== undefined && index === 0 && (
+              {lastLoser !== null && index === 0 && (
                 <strong>
                   {` - ${players[lastLoser].name} lost a die!`}
                 </strong>
