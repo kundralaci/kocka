@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/kocka/static/css/main.be148857.css",
-    "main.js": "/kocka/static/js/main.32fe14c4.js",
+    "main.js": "/kocka/static/js/main.a5ec8155.js",
     "static/js/453.9e8bd26d.chunk.js": "/kocka/static/js/453.9e8bd26d.chunk.js",
     "index.html": "/kocka/index.html",
     "main.be148857.css.map": "/kocka/static/css/main.be148857.css.map",
-    "main.32fe14c4.js.map": "/kocka/static/js/main.32fe14c4.js.map",
+    "main.a5ec8155.js.map": "/kocka/static/js/main.a5ec8155.js.map",
     "453.9e8bd26d.chunk.js.map": "/kocka/static/js/453.9e8bd26d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.be148857.css",
-    "static/js/main.32fe14c4.js"
+    "static/js/main.a5ec8155.js"
   ]
 }
