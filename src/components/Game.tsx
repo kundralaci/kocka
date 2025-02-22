@@ -14,6 +14,7 @@ import { BetHistory } from './BetHistory';
 import { ResetButton, GameContainer, Title, VersionNumber, ActionButtons, Button, HeaderContainer } from './styled/game';
 import { Die } from './Die';
 import { ConfirmationPopup } from './ConfirmationPopup';
+import html2canvas from 'html2canvas';
 
 export const Game: React.FC = () => {
   const dispatch = useDispatch();
@@ -117,8 +118,39 @@ export const Game: React.FC = () => {
     dispatch(setInitializing());
   };
 
+  const handleShare = async (playerName: string) => {
+    console.log('handleShare', playerName);
+    try {
+      const gameContainer = document.querySelector('.game-container');
+      if (!gameContainer) return;
+
+      const canvas = await html2canvas(gameContainer as HTMLElement);
+      const blob = await new Promise<Blob>(resolve => {
+        canvas.toBlob(blob => resolve(blob as Blob), 'image/png');
+      });
+
+      if (navigator.share) {
+        await navigator.share({
+          files: [new File([blob], 'kocka-game.png', { type: 'image/png' })],
+          title: `${playerName}'s Kocka Game`,
+          text: 'Check out my game of Kocka - A Liar\'s Dice!'
+        });
+      } else {
+        // Fallback for browsers that don't support Web Share API
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'kocka-game.png';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
+  };
+
   return (
-    <GameContainer>
+    <GameContainer className="game-container">
       {gameState.gamePhase === GamePhase.INITIALIZING ? (
         <GameConfiguration
           currentTheme={currentTheme}
@@ -141,13 +173,15 @@ export const Game: React.FC = () => {
             >
               🎲 Kocka - A Liar's Dice
             </Title>
-            <ResetButton 
-              onClick={() => setShowConfirmation(true)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Restart
-            </ResetButton>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <ResetButton 
+                onClick={() => setShowConfirmation(true)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Restart
+              </ResetButton>
+            </div>
           </HeaderContainer>
           <PlayerGrid
             players={gameState.players}
@@ -179,6 +213,13 @@ export const Game: React.FC = () => {
           )}
           {gameState.gamePhase === GamePhase.ROUND_END && (
             <ActionButtons>
+              <Button 
+                onClick={() => handleShare(gameState.players[gameState.activePlayerIndex]?.name || 'Player')}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Share
+              </Button>
               <Button onClick={() => dispatch(closeRound())}>Next Round</Button>
             </ActionButtons>
           )}

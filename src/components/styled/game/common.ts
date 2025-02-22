@@ -92,7 +92,6 @@ export const GameContainer = styled.div`
   background: ${props => props.theme.colors.background};
   color: ${props => props.theme.colors.text};
   border-radius: ${props => props.theme.borderRadius.xlarge};
-  box-shadow: ${props => props.theme.shadows.main};
 
   @media (max-width: 768px) {
     padding: ${props => props.theme.spacing.small};

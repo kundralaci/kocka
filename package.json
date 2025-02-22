@@ -13,6 +13,7 @@
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "framer-motion": "^12.4.3",
+    "html2canvas": "^1.4.1",
     "modern-normalize": "^3.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

@@ -54,7 +54,7 @@ export const BetHistory: React.FC<BetHistoryProps> = ({
                 )
               }
               {lastLoser !== null && index === 0 && (
-                <strong>
+                <strong style={{ marginLeft: '1ch' }}>
                   {` - ${players[lastLoser].name} lost a die!`}
                 </strong>
               )}
