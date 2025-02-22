@@ -100,11 +100,11 @@ export const GameContainer = styled.div`
   }
 `;
 
-export const ResetButton = styled(motion.button)`
+export const SmallButton = styled(motion.button)`
   background: ${props => props.theme.colors.primary};
   color: ${props => props.theme.colors.text};
   border: 1px solid ${props => props.theme.colors.primary};
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.5rem;
   border-radius: ${props => props.theme.borderRadius.medium};
   cursor: pointer;
   transition: all 0.2s ease;

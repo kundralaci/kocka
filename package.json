@@ -4,6 +4,7 @@
   "homepage": "https://kundralaci.github.io/kocka",
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
+    "@remixicon/react": "^4.6.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",

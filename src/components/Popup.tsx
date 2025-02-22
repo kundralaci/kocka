@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import {
   Overlay,
@@ -14,6 +14,14 @@ export const Popup: React.FC<PopupProps> = ({
   onClose,
   children
 }) => {
+  // Prevent body scrolling when popup is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   return (
     <AnimatePresence>
       <Overlay

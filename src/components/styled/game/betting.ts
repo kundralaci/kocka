@@ -10,7 +10,9 @@ export const Overlay = styled(motion.div)`
   background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding: 20px;
+  overflow-y: auto;
   z-index: 100;
 `;
 
@@ -20,6 +22,9 @@ export const PopupContent = styled(motion.div)`
   border-radius: ${props => props.theme.borderRadius.large};
   width: 90%;
   max-width: 400px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  margin: auto;
   box-shadow: ${props => props.theme.shadows.main};
 
   @media (max-width: 768px) {

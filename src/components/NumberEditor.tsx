@@ -2,8 +2,9 @@ import React from 'react';
 import { Die } from './Die';
 import {
   NumberEditor as StyledNumberEditor,
-  Button
+  SmallButton
 } from './styled/game';
+import { RiAddLine, RiSubtractLine } from '@remixicon/react';
 
 interface NumberEditorProps {
   min?: number;
@@ -22,27 +23,27 @@ export const NumberEditor: React.FC<NumberEditorProps> = ({
 }) => {
   return (
     <StyledNumberEditor>
-      <Button
+      <SmallButton
         type="button"
         onClick={() => onChange(value - 1)}
         disabled={value <= min}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         >
-        -
-      </Button>
+        <RiSubtractLine size={16} />
+      </SmallButton>
       <Die is3D={is3D}
           faceValue={value}
       />
-      <Button
+      <SmallButton
         type="button"
         onClick={() => onChange(value + 1)}
         disabled={value >= max} // Assuming 10 is the max limit for quantity
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         >
-        +
-      </Button>
+        <RiAddLine size={16} />
+      </SmallButton>
     </StyledNumberEditor>
   );
 };

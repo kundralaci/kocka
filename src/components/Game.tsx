@@ -11,10 +11,12 @@ import { generateId } from '../utils/id';
 import { GameConfiguration } from './GameConfiguration';
 import { PlayerGrid } from './PlayerGrid';
 import { BetHistory } from './BetHistory';
-import { ResetButton, GameContainer, Title, VersionNumber, ActionButtons, Button, HeaderContainer } from './styled/game';
+import { GameContainer, Title, VersionNumber, ActionButtons, Button, HeaderContainer, SmallButton } from './styled/game';
 import { Die } from './Die';
 import { ConfirmationPopup } from './ConfirmationPopup';
 import { toPng } from 'html-to-image';
+import { RiArrowLeftLine, RiQuestionMark, RiShareFill } from '@remixicon/react';
+import { RulesPopup } from './RulesPopup';
 
 export const Game: React.FC = () => {
   const dispatch = useDispatch();
@@ -26,6 +28,7 @@ export const Game: React.FC = () => {
   const [numStartingDice, setNumStartingDice] = useState(3);
   const [braveness, setBraveness] = useState(50);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showRules, setShowRules] = useState(false);
 
   const handleAITurn = useCallback(async () => {
     if (gameState.gamePhase !== GamePhase.BETTING) return;
@@ -164,21 +167,26 @@ export const Game: React.FC = () => {
       ) : (
         <>
           <HeaderContainer>
+            <SmallButton
+              onClick={() => setShowConfirmation(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <RiArrowLeftLine size={14} />
+            </SmallButton>
             <Title
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
             >
               🎲 Kocka - A Liar's Dice
             </Title>
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <ResetButton 
-                onClick={() => setShowConfirmation(true)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Restart
-              </ResetButton>
-            </div>
+            <SmallButton
+              onClick={() => setShowRules(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <RiQuestionMark size={14} />
+            </SmallButton>
           </HeaderContainer>
           <PlayerGrid
             players={gameState.players}
@@ -210,13 +218,14 @@ export const Game: React.FC = () => {
           )}
           {gameState.gamePhase === GamePhase.ROUND_END && (
             <ActionButtons>
-              <Button 
+              <SmallButton
+                style={{ paddingRight: '1.0rem', paddingLeft: '1.0rem' }}
                 onClick={() => handleShare(gameState.players[gameState.activePlayerIndex]?.name || 'Player')}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Share
-              </Button>
+                <RiShareFill size={18} />
+              </SmallButton>
               <Button onClick={() => dispatch(closeRound())}>Next Round</Button>
             </ActionButtons>
           )}
@@ -241,6 +250,7 @@ export const Game: React.FC = () => {
               onClose={() => setShowConfirmation(false)}
             />
           )}
+          {showRules && <RulesPopup onClose={() => setShowRules(false)} />}
           <VersionNumber>v{process.env.REACT_APP_VERSION}</VersionNumber>
         </>
       )}
