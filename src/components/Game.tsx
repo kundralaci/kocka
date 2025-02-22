@@ -11,8 +11,9 @@ import { generateId } from '../utils/id';
 import { GameConfiguration } from './GameConfiguration';
 import { PlayerGrid } from './PlayerGrid';
 import { BetHistory } from './BetHistory';
-import { ResetButton, GameContainer, Title, VersionNumber, ActionButtons, Button } from './styled/game';
+import { ResetButton, GameContainer, Title, VersionNumber, ActionButtons, Button, HeaderContainer } from './styled/game';
 import { Die } from './Die';
+import { ConfirmationPopup } from './ConfirmationPopup';
 
 export const Game: React.FC = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ export const Game: React.FC = () => {
   const [numAIPlayers, setNumAIPlayers] = useState(2);
   const [numStartingDice, setNumStartingDice] = useState(3);
   const [braveness, setBraveness] = useState(50);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleAITurn = useCallback(async () => {
     if (gameState.gamePhase !== GamePhase.BETTING) return;
@@ -132,13 +134,21 @@ export const Game: React.FC = () => {
         />
       ) : (
         <>
-          <Title
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            Liar's Dice
-          </Title>
-          <ResetButton onClick={resetGame}>Reset Game</ResetButton>
+          <HeaderContainer>
+            <Title
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              🎲 Kocka - A Liar's Dice
+            </Title>
+            <ResetButton 
+              onClick={() => setShowConfirmation(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Restart
+            </ResetButton>
+          </HeaderContainer>
           <PlayerGrid
             players={gameState.players}
             activePlayerIndex={gameState.activePlayerIndex}
@@ -157,7 +167,7 @@ export const Game: React.FC = () => {
               {gameState.currentBet && (
                 <>
                   <div style={{ display: 'flex', alignItems: 'center', margin: '0 10px', fontWeight: 'bold' }}>
-                    Current bet: <Die faceValue={gameState.currentBet.quantity}/> X <Die faceValue={gameState.currentBet.faceValue}/>
+                    Bet: <Die faceValue={gameState.currentBet.quantity}/> X <Die faceValue={gameState.currentBet.faceValue}/>
                   </div>
                   <Button onClick={() => handleHumanDecision('challenge')}>Challenge</Button>
                 </>
@@ -178,6 +188,17 @@ export const Game: React.FC = () => {
               currentBet={gameState.currentBet}
               onDecision={handleHumanDecision}
               onClose={() => setShowBettingPopup(false)}
+            />
+          )}
+          {showConfirmation && (
+            <ConfirmationPopup
+              title="Restart Game"
+              message="Are you sure you want to restart the game? All progress will be lost."
+              onConfirm={() => {
+                resetGame();
+                setShowConfirmation(false);
+              }}
+              onClose={() => setShowConfirmation(false)}
             />
           )}
           <VersionNumber>v{process.env.REACT_APP_VERSION}</VersionNumber>

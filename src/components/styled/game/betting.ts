@@ -21,6 +21,11 @@ export const PopupContent = styled(motion.div)`
   width: 90%;
   max-width: 400px;
   box-shadow: ${props => props.theme.shadows.main};
+
+  @media (max-width: 768px) {
+    padding: ${props => props.theme.spacing.large};
+    width: 95%;
+  }
 `;
 
 export const Form = styled.form`
@@ -57,4 +62,13 @@ export const ButtonGroup = styled.div`
   display: flex;
   gap: ${props => props.theme.spacing.medium};
   margin-top: ${props => props.theme.spacing.medium};
+
+  // @media (max-width: 768px) {
+  //   flex-direction: column;
+  //   width: 100%;
+
+  //   button {
+  //     width: 100%;
+  //   }
+  // }
 `; 

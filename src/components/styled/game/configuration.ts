@@ -7,6 +7,14 @@ export const ConfigurationContainer = styled(motion.div)`
   gap: 1.5rem;
   align-items: center;
   margin: 2rem 0;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    gap: 1rem;
+    margin: 1rem 0;
+  }
 `;
 
 export const ConfigurationOption = styled.div`
@@ -14,10 +22,15 @@ export const ConfigurationOption = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   align-items: center;
+  width: 100%;
 
   label {
     font-size: 1.2rem;
     color: ${props => props.theme.colors.primary};
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
   }
 
   select, input {
@@ -26,7 +39,8 @@ export const ConfigurationOption = styled.div`
     background: ${props => props.theme.colors.secondary};
     color: ${props => props.theme.colors.text};
     border: 1px solid ${props => props.theme.colors.primary};
-    width: 200px;
+    width: 100%;
+    max-width: 300px;
     text-align: center;
 
     &:focus {

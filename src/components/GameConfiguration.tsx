@@ -7,7 +7,8 @@ import {
   ThemeSelect,
   Button,
   Title,
-  Tag
+  Tag,
+  VersionNumber
 } from './styled/game';
 import { NumberEditor } from './NumberEditor';
 
@@ -47,7 +48,7 @@ export const GameConfiguration: React.FC<GameConfigurationProps> = ({
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         >
-          Liar's Dice
+          🎲 Kocka - A Liar's Dice
       </Title>
 
       <ConfigurationOption>
@@ -109,6 +110,8 @@ export const GameConfiguration: React.FC<GameConfigurationProps> = ({
       >
         Start Game
       </Button>
+
+      <VersionNumber>v{process.env.REACT_APP_VERSION}</VersionNumber>
     </ConfigurationContainer>
   );
 }; 

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
 import { Bet, isGreaterBet } from '../models/Bet';
+import { Popup } from './Popup';
 import {
-  Overlay,
-  PopupContent,
   Form,
   InputGroup,
   Label,
@@ -36,58 +34,41 @@ export const BettingPopup: React.FC<BettingPopupProps> = ({
     }
   };
 
-  const handleCancel = () => {
-    onClose();
-  };
-
   return (
-    <AnimatePresence>
-      <Overlay
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-      >
-        <PopupContent
-          onClick={e => e.stopPropagation()}
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.8, opacity: 0 }}
-        >
-          <Title>Make Your Move</Title>
-          <Form onSubmit={handleSubmit}>
-            <InputGroup>
-              <Label>Quantity</Label>
-              <NumberEditor
-                min={currentBet ? currentBet.quantity : 1}
-                value={quantity}
-                onChange={setQuantity}
-              />
-            </InputGroup>
-            <InputGroup>
-              <Label>Face Value</Label>
-              <NumberEditor
-                min={currentBet ? (quantity > currentBet.quantity ? 1 : currentBet.faceValue) : 1}
-                max={6}
-                value={faceValue}
-                onChange={setFaceValue}
-              />
-            </InputGroup>
-            <ButtonGroup>
-              <Button
-                type="button"
-                onClick={handleCancel}
-                whileHover={{ scale: 1.05 }}
-              >
-                Cancel
-              </Button>
-              <Button type="submit" whileHover={{ scale: 1.05 }}>
-                Place Bet
-              </Button>
-            </ButtonGroup>
-          </Form>
-        </PopupContent>
-      </Overlay>
-    </AnimatePresence>
+    <Popup onClose={onClose}>
+      <Title style={{marginBottom: '1rem'}}>Make Your Move</Title>
+      <Form onSubmit={handleSubmit}
+        style={{alignItems: 'center', textAlign: 'center'}}>
+        <InputGroup>
+          <Label>Quantity</Label>
+          <NumberEditor
+            min={currentBet ? currentBet.quantity : 1}
+            value={quantity}
+            onChange={setQuantity}
+          />
+        </InputGroup>
+        <InputGroup>
+          <Label>Face Value</Label>
+          <NumberEditor
+            min={currentBet ? (quantity > currentBet.quantity ? 1 : currentBet.faceValue) : 1}
+            max={6}
+            value={faceValue}
+            onChange={setFaceValue}
+          />
+        </InputGroup>
+        <ButtonGroup>
+          <Button
+            type="button"
+            onClick={onClose}
+            whileHover={{ scale: 1.05 }}
+          >
+            Cancel
+          </Button>
+          <Button type="submit" whileHover={{ scale: 1.05 }}>
+            Place Bet
+          </Button>
+        </ButtonGroup>
+      </Form>
+    </Popup>
   );
 }; 

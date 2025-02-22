@@ -1,11 +1,29 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
+export const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+
+  @media (max-width: 768px) {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+  }
+`;
+
 export const Title = styled(motion.h1)`
   text-align: center;
   color: ${props => props.theme.colors.primary};
   font-size: 2.5rem;
-  margin-bottom: 2rem;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+    flex: 1;
+  }
 `;
 
 export const Controls = styled(motion.div)`
@@ -24,6 +42,13 @@ export const Button = styled(motion.button)`
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  min-width: 120px;
+
+  @media (max-width: 768px) {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    min-width: 100px;
+  }
 
   &:hover {
     background: ${props => props.theme.colors.primaryHover};
@@ -60,37 +85,51 @@ export const VersionNumber = styled.div`
 
 export const GameContainer = styled.div`
   position: relative;
+  width: 100%;
   max-width: 800px;
   margin: 0 auto;
-  padding: ${props => props.theme.spacing.xlarge};
+  padding: ${props => props.theme.spacing.medium};
   background: ${props => props.theme.colors.background};
   color: ${props => props.theme.colors.text};
   border-radius: ${props => props.theme.borderRadius.xlarge};
   box-shadow: ${props => props.theme.shadows.main};
+
+  @media (max-width: 768px) {
+    padding: ${props => props.theme.spacing.small};
+    border-radius: 0;
+    min-height: 100vh;
+  }
 `;
 
 export const ResetButton = styled(motion.button)`
-  position: absolute;
-  top: ${props => props.theme.spacing.medium};
-  right: ${props => props.theme.spacing.medium};
-  background: ${props => props.theme.colors.primary};
-  color: ${props => props.theme.colors.text};
-  border: none;
-  padding: ${props => props.theme.spacing.small} ${props => props.theme.spacing.medium};
+  background: transparent;
+  color: ${props => props.theme.colors.textMuted};
+  border: 1px solid ${props => props.theme.colors.border};
+  padding: 0.5rem 1rem;
   border-radius: ${props => props.theme.borderRadius.medium};
-  font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-size: 0.9rem;
+
+  @media (max-width: 768px) {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
 
   &:hover {
-    background: ${props => props.theme.colors.primaryHover};
-    transform: translateY(-2px);
+    background: ${props => props.theme.colors.secondary};
+    color: ${props => props.theme.colors.text};
   }
-`; 
+`;
 
 export const ActionButtons = styled.div`
   display: flex;
   gap: 1rem;
   justify-content: center;
   margin: 1rem 0;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+  }
 `;
